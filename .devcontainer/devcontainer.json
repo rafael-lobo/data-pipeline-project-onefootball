@@ -1,3 +1,24 @@
 {
-  "name": "Data Pipeline Project"
+  "name": "Data Pipeline Project",
+  "dockerComposeFile": ["../docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.shell.linux": "/bin/bash"
+      },
+      "extensions": [
+        "ms-python.python",
+        "ms-azuretools.vscode-docker",
+        "ckolkman.vscode-postgres",
+        "phplasma.csv-to-table"
+      ]
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2.11": {}
+  },
+  "runArgs": ["--init", "--privileged", "--env-file=../.env"],
+  "overrideCommand": false
 }
