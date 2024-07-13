@@ -11,7 +11,9 @@ This project was developed to demonstrate data engineering skills, using codespa
 - **Dockerfile**: Container build instructions for the application.
 - **files_size_data.py**: Main script for the data pipeline.
 - **requirements.txt**: Project dependencies.
-- **.env**: Environment variables for database configuration.
+- **.env**: Environment variables for database configuration. Here you can change the environment variables:
+  - `SLEEP_TIME`: to adjust the periodicity of the script
+  - `FILES_FOLDER_PATH`: to specify the target directory path for the script
 
 ## Usage Instructions
 
