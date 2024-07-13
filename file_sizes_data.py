@@ -1,4 +1,5 @@
 import os
+import time
 import psycopg2
 from psycopg2 import sql
 
@@ -37,6 +38,15 @@ def insert_records(cursor, file_sizes):
             (path, size)
         )
 
+def delete_obsolete_records(cursor, file_sizes):
+    cursor.execute('SELECT path FROM file_sizes')
+    database_files = set(row[0] for row in cursor.fetchall())
+    directory_files = set(path for path, _size in file_sizes)
+    files_to_delete = database_files - directory_files
+    if len(files_to_delete) > 0:
+        for path in files_to_delete:
+            cursor.execute(sql.SQL("DELETE FROM file_sizes WHERE path = %s"), [path])
+
 def export_to_csv(cursor):
     with open('result.csv', 'w') as f:
         cursor.copy_expert('COPY file_sizes TO STDOUT WITH CSV HEADER', f)
@@ -53,6 +63,7 @@ def write_to_database(database, file_sizes):
         ''')
 
         insert_records(cursor, file_sizes)
+        delete_obsolete_records(cursor, file_sizes)
         database.commit()
 
         print("Data stored in database.")
@@ -65,10 +76,15 @@ def write_to_database(database, file_sizes):
 def main():
     database = connect_to_db()
     target_folder_path = os.getenv('FILES_FOLDER_PATH')
-    file_sizes = get_file_sizes(target_folder_path)
-    write_to_database(database, file_sizes)
+    sleep_time = int(os.getenv('SLEEP_TIME'))
+
+    while True:
+        print("-"*40)
+        file_sizes = get_file_sizes(target_folder_path)
+        write_to_database(database, file_sizes)
+        print(f"Updating data again in {sleep_time} seconds...")
+        time.sleep(sleep_time)
 
 if __name__ == "__main__":
     print("Starting script...")
     main()
-    print("Script finished!")
