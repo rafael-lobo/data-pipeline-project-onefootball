@@ -16,12 +16,16 @@ This project was developed to demonstrate data engineering skills, using codespa
 ## Usage Instructions
 
 1. Create a codespace.
-   ![create codespace](/images/create-codespace.png)
+
+![create codespace](/images/create-codespace.png)
+
 2. Wait for the codespace to be created.
 3. Run `docker compose up`.
    - The `file_sizes_data.py` script will periodically store the data from the target repository on the database, as well as on the `result.csv` file.
    - The container and its dependencies can be viewed at the Docker tab
-     ![alt text](/images/docker.png)
+
+![alt text](/images/docker.png)
+
 4. Connect to the database using `Ctrl`+`Shift`+`P` (or `⌘`+`Shift`+`P`) → `PostgreSQL: Add Connection`. Use the credentials in the `.env` file to connect to the database.
 
    - _Hostname_: `db`
@@ -32,9 +36,13 @@ This project was developed to demonstrate data engineering skills, using codespa
 5. Check the database.
 
    - On the PostgreSQL tab, view the table by right-clicking on the `file_sizes` table and selecting `New Query`, then run `SELECT * FROM file_sizes;`
-     ![postgres table](/images/postgres.png)
+
+   ![postgres table](/images/postgres.png)
+
    - Alternatively, open the `result.csv` file, use `Ctrl`+`Shift`+`P` (or `⌘`+`Shift`+`P`) → `Convert to table from CSV`
-     ![csv](/images/csv.png)
+   
+   ![csv](/images/csv.png)
+
    - Another method to access the result table's data is by using `psql`, running the following commands on the terminal:
 
    ```
